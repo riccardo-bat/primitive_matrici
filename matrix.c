@@ -21,14 +21,14 @@ bid_matrix generate_matrix(int rows, int columns){
     return obj_matrix;
 }
 
-void show_matrix(bid_matrix obj_matrix){
+void show_matrix(bid_matrix* obj_matrix){
     printf("\n\nStampa della matrice in corso...\n");
-    tipo_inf** matrice = obj_matrix.matrix; 
+    tipo_inf** matrice = obj_matrix->matrix; 
 
     //stampa della matrice riga per riga
-    for(int riga=0; riga<obj_matrix.rows; riga++){
+    for(int riga=0; riga<obj_matrix->rows; riga++){
         printf("\t");
-        for(int colonna=0; colonna<obj_matrix.columns; colonna++){
+        for(int colonna=0; colonna<obj_matrix->columns; colonna++){
             printf("%d\t", matrice[riga][colonna].value);
         }
  
@@ -70,4 +70,49 @@ void free_matrix(bid_matrix* obj_matrix){
     //dealloco l'array di puntatori
     free(obj_matrix->matrix);
     obj_matrix->matrix = NULL;
+}
+
+
+/** primitiva per la somma di matrici */
+bid_matrix sum_matrix(bid_matrix matrix1, bid_matrix matrix2){
+    /*printf("\nRows m1: %d", matrix1.rows);
+    printf("\nRows m2: %d", matrix2.rows);
+    printf("\nCOolumns m1: %d", matrix1.columns);
+    printf("\nCOolumns m2: %d", matrix2.columns);*/
+
+    //la somma viene effettuata solo per matrici delle stesse dimensioni
+    if(matrix1.rows != matrix2.rows || matrix1.columns != matrix2.columns){
+        bid_matrix obj_matrix = {
+            .rows = 0, 
+            .columns = 0, 
+            .matrix = NULL
+        };
+
+        return obj_matrix;
+
+    }
+
+    bid_matrix sum = generate_matrix(matrix1.rows, matrix1.columns);
+    initialize_int_values(&sum);
+
+    //scorro entrambe le matrici
+    //sum[i][j] = matrix1[i][j] + matrix2[i][j]
+    for(int i=0; i<matrix1.rows; i++){
+        for(int j=0; j<matrix2.columns; j++)
+            sum.matrix[i][j].value = matrix1.matrix[i][j].value + matrix2.matrix[i][j].value;
+    }
+
+    return sum;
+}
+
+bid_matrix transpose(bid_matrix* ptr_matrix){
+    //TRASPOSTA[I][J] = MATRIX[J][I]
+    bid_matrix trasposta = generate_matrix(ptr_matrix->columns, ptr_matrix->rows);
+    
+    for(int i=0; i<ptr_matrix->rows; i++){
+        for(int j=0; j<ptr_matrix->columns; j++)
+            trasposta.matrix[j][i].value = ptr_matrix->matrix[i][j].value;
+    }
+
+    return trasposta;
 }
