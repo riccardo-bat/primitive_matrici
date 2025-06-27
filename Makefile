@@ -23,6 +23,6 @@ tipo_inf.o: tipo_inf.c tipo_inf.h
 
 #pulizia del file
 clean: 
-	del /F *.o *.out *.exe
+	del /F *.o *.out *.exe *.gch
 
 .PHONY: clean
