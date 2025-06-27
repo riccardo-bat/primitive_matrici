@@ -3,6 +3,8 @@
 
     #include <stdio.h>
     #include <stdlib.h>
+    #include <time.h>
+    #include <string.h>
     #include "tipo_inf.h"
 
     //oggetto matrice
@@ -15,6 +17,7 @@
     //prototipi 
     bid_matrix generate_matrix(int rows, int columns);
     void initialize_int_values(bid_matrix* obj_matrix);
+    void fill_matrix_rand(bid_matrix* obj_matrix, tipo_inf min, tipo_inf max);
     void show_matrix(bid_matrix obj_matrix);
     void free_matrix(bid_matrix* obj_matrix);
 

@@ -29,7 +29,7 @@ void show_matrix(bid_matrix obj_matrix){
     for(int riga=0; riga<obj_matrix.rows; riga++){
         printf("\t");
         for(int colonna=0; colonna<obj_matrix.columns; colonna++){
-            printf("%d ", matrice[riga][colonna].value);
+            printf("%d\t", matrice[riga][colonna].value);
         }
  
         //terminata la stampa di una riga
@@ -41,9 +41,25 @@ void show_matrix(bid_matrix obj_matrix){
 //inizializza una matrice di interi a 0     
 void initialize_int_values(bid_matrix* obj_matrix){
     for(int riga=0; riga<obj_matrix->rows; riga++){
-        for(int colonna=0; colonna<obj_matrix->columns; colonna++)
+        for(int colonna=0; colonna<obj_matrix->columns; colonna++){
             obj_matrix->matrix[riga][colonna].value = 0;
+            strcpy(obj_matrix->matrix[riga][colonna].descrizione, "");
+        }
     }
+}
+
+void fill_matrix_rand(bid_matrix* obj_matrix, tipo_inf min, tipo_inf max){
+    if(min.value > max.value){
+        printf("\nMassimo e minimo scambiati per evitare ambiguita'\n");
+        scambia_tipoInf(&min, &max); 
+    }
+
+    for(int riga=0; riga<obj_matrix->rows; riga++){
+        for(int colonna=0; colonna<obj_matrix->columns; colonna++){
+            obj_matrix->matrix[riga][colonna].value = min.value + (rand() % max.value);
+        }
+    }
+
 }
 
 void free_matrix(bid_matrix* obj_matrix){
