@@ -73,15 +73,17 @@ void free_matrix(bid_matrix* obj_matrix){
 }
 
 
-/** primitiva per la somma di matrici */
-bid_matrix sum_matrix(bid_matrix matrix1, bid_matrix matrix2){
+/** 
+ * primitiva per la somma di matrici 
+ * */
+bid_matrix sum_matrix(bid_matrix* matrix1, bid_matrix* matrix2){
     /*printf("\nRows m1: %d", matrix1.rows);
     printf("\nRows m2: %d", matrix2.rows);
     printf("\nCOolumns m1: %d", matrix1.columns);
     printf("\nCOolumns m2: %d", matrix2.columns);*/
 
     //la somma viene effettuata solo per matrici delle stesse dimensioni
-    if(matrix1.rows != matrix2.rows || matrix1.columns != matrix2.columns){
+    if(matrix1->rows != matrix2->rows || matrix1->columns != matrix2->columns){
         bid_matrix obj_matrix = {
             .rows = 0, 
             .columns = 0, 
@@ -92,27 +94,68 @@ bid_matrix sum_matrix(bid_matrix matrix1, bid_matrix matrix2){
 
     }
 
-    bid_matrix sum = generate_matrix(matrix1.rows, matrix1.columns);
+    bid_matrix sum = generate_matrix(matrix1->rows, matrix1->columns);
     initialize_int_values(&sum);
 
     //scorro entrambe le matrici
     //sum[i][j] = matrix1[i][j] + matrix2[i][j]
-    for(int i=0; i<matrix1.rows; i++){
-        for(int j=0; j<matrix2.columns; j++)
-            sum.matrix[i][j].value = matrix1.matrix[i][j].value + matrix2.matrix[i][j].value;
+    for(int i=0; i<matrix1->rows; i++){
+        for(int j=0; j<matrix2->columns; j++)
+            sum.matrix[i][j].value = matrix1->matrix[i][j].value + matrix2->matrix[i][j].value;
     }
 
     return sum;
 }
 
+/**
+ * @brief 
+ * 
+ * @param matrix1 
+ * @param matrix2 
+ * @return bid_matrix 
+ * 
+ * moltiplicazione tra matrici NxM e MxS
+ */
+bid_matrix mul_matrix(bid_matrix* matrix1, bid_matrix* matrix2){
+    //controllo se non è possibile effettuare il prodotto
+    if(matrix1->columns != matrix2->rows){
+        bid_matrix obj_matrix = {
+            .rows = 0, 
+            .columns = 0, 
+            .matrix = NULL
+        };
+
+        return obj_matrix;
+    }
+
+    //mul[i][j] = sum(prodotti elemento colonna i di matrix1 * elemento riga j di matrix2)
+    //righe mul = righe matrix1
+    //colonne mul = colonne matrix2
+    bid_matrix mul = generate_matrix(matrix1->rows, matrix2->columns);
+    initialize_int_values(&mul);
+    printf("Here");
+
+    for(int i=0; i<mul.rows; i++){ //scorre le righe di mul
+        for(int j=0; j<mul.columns; j++){ //scorre le colonne di mul
+            //con k scorro la i-esima riga di m1 e la j-esima colonna di m2
+            //le colonne di m1 = righe di m2
+            for(int k = 0; k < matrix1->columns || k < matrix2->rows; k++) 
+                mul.matrix[i][j].value += matrix1->matrix[i][k].value * matrix2->matrix[k][j].value;
+        }
+    }
+
+    return mul;
+}
+
 bid_matrix transpose(bid_matrix* ptr_matrix){
     //TRASPOSTA[I][J] = MATRIX[J][I]
     bid_matrix trasposta = generate_matrix(ptr_matrix->columns, ptr_matrix->rows);
-    
+
     for(int i=0; i<ptr_matrix->rows; i++){
         for(int j=0; j<ptr_matrix->columns; j++)
-            trasposta.matrix[j][i].value = ptr_matrix->matrix[i][j].value;
+            trasposta.matrix[j][i].value = ptr_matrix->matrix[i][j].value; //nota bene gli indici per evitare out of bound
     }
 
     return trasposta;
 }
+
