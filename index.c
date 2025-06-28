@@ -21,7 +21,7 @@ int main(){
     show_matrix(&matrice3);
 
     //test delle primitive
-    bid_matrix sum = sum_matrix(&matrice, &matrice2);
+    /*bid_matrix sum = sum_matrix(&matrice, &matrice2);
     if(sum.matrix != NULL){
         printf("\nMATRICE + MATRICE2");
         show_matrix(&sum);
@@ -33,17 +33,17 @@ int main(){
         printf("\nMATRICE + MATRICE3");
         show_matrix(&sum);
     } else
-        printf("\n\nIMPOSSIBILE ESEGUIRE MATRICE + MATRICE3");
+        printf("\n\nIMPOSSIBILE ESEGUIRE MATRICE + MATRICE3");*/
 
 
     //trasposta di matrice2
-    bid_matrix trasposta_matrice2 = transpose(&matrice2);
+    /*bid_matrix trasposta_matrice2 = transpose(&matrice2);
     printf("\nTRASPOSTA MATRICE 2");
-    show_matrix(&trasposta_matrice2);
+    show_matrix(&trasposta_matrice2);*/
 
 
     //moltiplicazione tra matrici
-    bid_matrix mul = mul_matrix(&matrice, &matrice2);
+    /*bid_matrix mul = mul_matrix(&matrice, &matrice2);
     printf("Here2");
     if(mul.matrix == NULL){
         printf("\n\nNon è possibile effettuare matrice * matrice2");
@@ -58,11 +58,19 @@ int main(){
     } else{
         printf("\nMATRICE2 * MATRICE3");
         show_matrix(&mul);
-    }
+    }*/
 
 
     //verifico se la matrice è simmetrica
+    if(is_matrix_simmetric(&matrice))
+        printf("\n\nMatrice e' simmetrica");
+    else 
+        printf("\n\nMatrice NON e' simmetrica");
 
+    if(is_matrix_simmetric(&matrice2))
+        printf("\n\nMatrice2 e' simmetrica");
+    else 
+        printf("\n\nMatrice2 NON e' simmetrica");
 
 
     //deallocazione della memoria
@@ -70,5 +78,6 @@ int main(){
     free_matrix(&matrice2);
     free_matrix(&matrice3);
 
+    printf("\n\n");
     return 0;
 }

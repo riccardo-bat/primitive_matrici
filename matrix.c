@@ -139,7 +139,7 @@ bid_matrix mul_matrix(bid_matrix* matrix1, bid_matrix* matrix2){
         for(int j=0; j<mul.columns; j++){ //scorre le colonne di mul
             //con k scorro la i-esima riga di m1 e la j-esima colonna di m2
             //le colonne di m1 = righe di m2
-            for(int k = 0; k < matrix1->columns || k < matrix2->rows; k++) 
+            for(int k = 0; k < matrix1->columns; k++) 
                 mul.matrix[i][j].value += matrix1->matrix[i][k].value * matrix2->matrix[k][j].value;
         }
     }
@@ -159,3 +159,22 @@ bid_matrix transpose(bid_matrix* ptr_matrix){
     return trasposta;
 }
 
+bool is_matrix_simmetric(bid_matrix* ptr_matrix){
+    //una matrice è simmetrica <=> è quadrata
+    if(ptr_matrix->rows != ptr_matrix->columns) return false;
+
+    bid_matrix trasposta = transpose(ptr_matrix);
+    //poichè la matrice di partenza è quadrata, anche la sua trasposta lo è 
+    for(int i=0; i<ptr_matrix->rows; i++){
+        for(int j=0; j<ptr_matrix->columns; j++){
+            if(ptr_matrix->matrix[i][j].value != trasposta.matrix[i][j].value){
+                free_matrix(&trasposta);
+                return false;
+            }
+                
+        }
+    }
+
+    free_matrix(&trasposta);
+    return true;
+}

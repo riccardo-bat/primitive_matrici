@@ -6,6 +6,7 @@
     #include <time.h>
     #include <string.h>
     #include "tipo_inf.h"
+    #include <stdbool.h>
 
     //oggetto matrice
     typedef struct{ 
@@ -23,5 +24,6 @@
     bid_matrix sum_matrix(bid_matrix* matrix1, bid_matrix* matrix2);
     bid_matrix mul_matrix(bid_matrix* matrix1, bid_matrix* matrix2);
     bid_matrix transpose(bid_matrix* ptr_matrix);
+    bool is_matrix_simmetric(bid_matrix* ptr_matrix);
 
 #endif
